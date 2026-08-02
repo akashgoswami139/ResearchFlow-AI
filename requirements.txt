@@ -42,4 +42,4 @@ html5lib>=1.1
 #Forntend
 streamlit>=1.36
 streamlit-option-menu>=0.3.13
-fpdf2>=2.7
+fpdf2>=2.8.7

@@ -1,5 +1,3 @@
-
- 
 from __future__ import annotations
  
 import io
@@ -209,32 +207,49 @@ def build_pdf_bytes(run: ResearchRun) -> Optional[bytes]:
  
     def sanitize(text: str) -> str:
         return text.encode("latin-1", "replace").decode("latin-1") if text else ""
- 
+
     pdf = FPDF(format="A4")
     pdf.set_auto_page_break(auto=True, margin=15)
     pdf.add_page()
-    pdf.set_font("Helvetica", "B", 16)
-    pdf.multi_cell(0, 10, sanitize(f"Research Report: {run.topic}"))
-    pdf.set_font("Helvetica", "", 9)
-    pdf.multi_cell(0, 6, sanitize(f"Generated: {run.created_at}"))
-    pdf.ln(4)
- 
-    def section(title: str, body: str) -> None:
+
+    pdf.set_left_margin(10)
+    pdf.set_right_margin(10)
+
+    page_width = pdf.w - pdf.l_margin - pdf.r_margin
+
+    # ---------- Define section() HERE ----------
+    def section(title: str, body: str):
+        pdf.set_x(pdf.l_margin)
         pdf.set_font("Helvetica", "B", 13)
-        pdf.multi_cell(0, 8, sanitize(title))
+        pdf.multi_cell(page_width, 8, sanitize(title))
+
+        pdf.set_x(pdf.l_margin)
         pdf.set_font("Helvetica", "", 10)
-        pdf.multi_cell(0, 5.5, sanitize(body if body else "Not available."))
+        pdf.multi_cell(page_width, 5.5, sanitize(body or "Not available."))
+
         pdf.ln(3)
- 
+
+    # ---------- PDF Header ----------
+    pdf.set_x(pdf.l_margin)
+    pdf.set_font("Helvetica", "B", 16)
+    pdf.multi_cell(page_width, 10, sanitize(f"Research Report: {run.topic}"))
+
+    pdf.set_x(pdf.l_margin)
+    pdf.set_font("Helvetica", "", 9)
+    pdf.multi_cell(page_width, 6, sanitize(f"Generated: {run.created_at}"))
+
+    pdf.ln(4)
+
+    # ---------- Use section() ----------
     section("Report", run.report)
     section("Critic Review", run.feedback)
+
     urls = run.sources
     section("Sources Referenced", "\n".join(urls) if urls else "No source URLs detected.")
- 
+
     buffer = io.BytesIO()
     pdf.output(buffer)
     return buffer.getvalue()
- 
  
 # ============================================================================
 # THEME / CSS  ("research ledger" look: ink + brass/amber + teal accents)
