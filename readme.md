@@ -238,8 +238,8 @@ I am passionate about Artificial Intelligence, Machine Learning, Large Language 
 ### 🌐 Connect with Me
 
 - 🐙 GitHub: https://github.com/akashgoswami139
-- 💼 LinkedIn: https://www.linkedin.com/in/YOUR-LINKEDIN
-- 🐦 X (Twitter): https://x.com/YOUR-USERNAME
+- 💼 LinkedIn: https://www.linkedin.com/in/akashgoswami-/
+- 🐦 X (Twitter): https://x.com/akashgoswami
 - 📧 Email: akashhgoswami26@gmail.com
 
 ---
