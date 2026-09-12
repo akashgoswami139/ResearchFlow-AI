@@ -17,14 +17,14 @@ def web_search(query : str)-> str:
 
      search_results = []
 
-     for i in results["results"]:
-            search_results.append({
-                "title": i["title"],
-                "url": i["url"],
-                "snippet": i["content"][:300]
-            })
+     for i, result in enumerate(results["results"], start=1):
+          search_results.append(
+          f"{i}. {result['title']}\n"
+          f"URL: {result['url']}\n"
+          f"Snippet: {result['content'][:300]}"
+    )
 
-     return search_results    
+     return "\n\n".join(search_results)    
 
 @tool
 def scrape_url(url: str) -> str:
