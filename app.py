@@ -510,8 +510,7 @@ def render_run_results(run: ResearchRun) -> None:
             st.markdown("**URLs**")
             for url in run.sources:
                 st.markdown(f"- [{url}]({url})")
-        st.markdown("**Search results**")
-        st.markdown(run.search_results or "_No content returned._")
+        
  
     with st.expander("📖 Reader Agent", expanded=False):
         st.markdown(_agent_status_badge(run, bool(run.scraped_content)), unsafe_allow_html=True)
