@@ -4,8 +4,8 @@ langchain-core>=0.2.0
 langchain-community>=0.2.0
 langchain-mistralai>=0.2.0
 
-# Mistral SDK
-mistralai>=1.2.0
+# Google SDK
+langchain-google-genai==4.4.0
 
 # Tavily Search Tool
 tavily-python>=0.3.0
