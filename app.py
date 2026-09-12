@@ -502,12 +502,6 @@ def render_run_results(run: ResearchRun) -> None:
         unsafe_allow_html=True,
     )
     st.markdown("</div>", unsafe_allow_html=True)
- 
-    with st.expander("🔍 Search Agent", expanded=True):
-        st.markdown(_agent_status_badge(run, bool(run.search_results)), unsafe_allow_html=True)
-        st.markdown(f"**Sources found:** {len(run.sources)}")
-        if run.sources:
-            st.markdown("**URLs**")
             for url in run.sources:
                 st.markdown(f"- [{url}]({url})")
         
