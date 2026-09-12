@@ -1,277 +1,251 @@
-# 🚀 ResearchFlow AI
+# ResearchFlow AI 🧭
 
-> **Enterprise Multi-Agent AI Research Assistant**
+### Enterprise Multi-Agent AI Research Assistant
 
-ResearchFlow AI is an intelligent multi-agent research system that automates the complete research workflow using AI agents. It searches trusted web sources, extracts meaningful information, generates professional research reports, and evaluates the report quality using autonomous AI agents.
+ResearchFlow AI is a multi-agent research assistant that automates the research workflow from web discovery → source reading → report generation → quality review.
 
----
+The application uses specialized AI agents to search trusted web sources, extract useful information, generate a structured research report, and evaluate the final output.
+
+## 🚀 Live Demo
+
+👉 https://researchflow-ai-akash.streamlit.app/
 
 ## ✨ Features
 
-### 🔍 Search Agent
-- Searches the web for relevant information.
-- Finds trusted and reliable sources.
-- Prioritizes official websites and authoritative content.
-- Filters duplicate results.
-- Returns structured search results.
+- 🔍 Search Agent — searches the web for relevant and reliable sources.
+- 📖 Reader Agent — reads and extracts useful information from selected web pages.
+- ✍️ Writer Agent — synthesizes the extracted information into a structured research report.
+- 🧠 Critic Agent — reviews the generated report and provides a quality assessment.
+- 🌐 Live Web Research — research is grounded in current web sources instead of relying only on the model's training data.
+- 📄 Report Export — download generated reports as Markdown, TXT, or PDF.
+- 🗂️ Session Report History — previously generated reports remain available during the current Streamlit session.
+- 🎨 Custom UI — research-focused Streamlit interface with dark/light themes, metrics, agent status indicators, and expandable workflow sections.
 
-### 📖 Reader Agent
-- Scrapes webpages from selected sources.
-- Cleans HTML and extracts useful information.
-- Summarizes the content into a structured format.
-- Removes irrelevant text and advertisements.
+## 🏗️ Research Workflow
 
-### ✍️ Writer Agent
-- Generates a professional research report.
-- Creates well-structured sections with headings.
-- Produces introductions, key findings, conclusions, and references.
-- Combines information from multiple trusted sources.
+User enters research topic
+          │
+          ▼
+    🔍 Search Agent
+          │
+          ▼
+    📖 Reader Agent
+          │
+          ▼
+     ✍ Writer Agent
+          │
+          ▼
+     🧠 Critic Agent
+          │
+          ▼
+      Final Report
 
-### 🧠 Critic Agent
-- Reviews the generated report.
-- Identifies strengths and weaknesses.
-- Suggests improvements.
-- Assigns an overall quality score.
+### Agent responsibilities
 
----
+Search Agent
 
-# 🏗️ Multi-Agent Workflow
+Finds relevant web sources for the requested topic. The UI displays the agent's completion status rather than exposing the raw internal search-tool response.
 
-```text
-                User Query
-                     │
-                     ▼
-             🔍 Search Agent
-                     │
-         Trusted Search Results
-                     │
-                     ▼
-              📖 Reader Agent
-                     │
-        Extracted & Cleaned Content
-                     │
-                     ▼
-              ✍️ Writer Agent
-                     │
-       Professional Research Report
-                     │
-                     ▼
-              🧠 Critic Agent
-                     │
-                     ▼
-              Final Reviewed Report
-```
+Reader Agent
 
----
+Processes the selected web content and extracts the information needed by the downstream report-generation step.
 
-# ⚙️ Tech Stack
+Writer Agent
 
-- Python 3.x
-- LangGraph
-- LangChain
-- Mistral AI
-- BeautifulSoup4
-- Requests
-- Streamlit (UI)
-- Python Dotenv
+Uses the extracted research to produce the final structured Markdown report.
 
----
+Critic Agent
 
-# 📂 Project Structure
+Evaluates the report and returns a quality assessment that is shown separately from the generated report.
 
-```text
+## 🖥️ User Interface
+
+The Research page provides:
+
+- Research topic input
+- Example research topics
+- Pipeline progress indicator
+- Execution-time metrics
+- Source count
+- Report word count
+- Estimated reading time
+- Critic score
+- Expandable Search, Reader, Writer, and Critic agent sections
+
+### UI cleanup update
+
+The Search Agent panel intentionally does not render the raw internal search response.
+
+Previously, the interface could show an internal structure similar to:
+
+**Search results**
+
+[{'type': 'text', 'text': '...', 'extras': {...}}]
+
+and a duplicated list of source URLs.
+
+That raw tool output has been removed from the visible Search Agent panel.
+
+The application now keeps the Search Agent section focused on its status, while the final generated report contains the structured source references in its dedicated Sources section.
+
+This keeps internal agent/tool data separate from the user-facing research report.
+
+## 📑 Generated Report
+
+A completed report contains:
+
+Research Report
+├── Introduction
+├── Key Findings
+├── Conclusion
+└── Sources
+
+The report can be previewed directly in the application and exported in:
+
+- Markdown (.md)
+- Plain text (.txt)
+- PDF (.pdf, when fpdf2 is available)
+
+## 🛠️ Tech Stack
+
+- Python
+- Streamlit
+- LangChain / LangGraph agent workflow
+- Tavily web search
+- LLM-based report generation
+- fpdf2 for PDF export
+- HTML/CSS customization for the Streamlit interface
+
+## 📁 Project Structure
+
+A typical project structure is:
+
 ResearchFlow-AI/
 │
-├── pipeline.py          # Main research workflow
-├── agents.py            # AI agent implementations
-├── tools.py             # Search and utility functions
-├── app.py               # Streamlit UI
+├── app.py
+├── agent.py
+├── pipeline.py
+├── tools.py
 ├── requirements.txt
 ├── README.md
-├── .gitignore
-└── .env
-```
+├── .env
+└── ...
 
----
+### Main files
 
-# 🚀 Installation
+File | Responsibility
+--- | ---
+app.py | Streamlit UI, session state, metrics, report rendering, downloads
+agent.py | Agent definitions and LLM-facing agent configuration
+pipeline.py | Research workflow orchestration and state passing
+tools.py | Web-search and supporting research tools
+requirements.txt | Python dependencies
 
-## 1. Clone the Repository
+## ⚙️ Local Setup
 
-```bash
+### 1. Clone the repository
+
 git clone https://github.com/akashgoswami139/ResearchFlow-AI.git
 cd ResearchFlow-AI
-```
 
----
+### 2. Create a virtual environment
 
-## 2. Create a Virtual Environment
-
-### Windows
-
-```bash
 python -m venv .venv
-.venv\Scripts\activate
-```
 
-### Linux / macOS
+Windows PowerShell:
 
-```bash
-python3 -m venv .venv
+.\.venv\Scripts\Activate.ps1
+
+macOS/Linux:
+
 source .venv/bin/activate
-```
 
----
+### 3. Install dependencies
 
-## 3. Install Dependencies
-
-```bash
 pip install -r requirements.txt
-```
 
----
+### 4. Configure environment variables
 
-## 4. Configure Environment Variables
+Create a .env file and add the API credentials required by the project.
 
-Create a `.env` file in the project root:
+Example:
 
-```env
-MISTRAL_API_KEY=your_api_key
-TAVILY_API_KEY=your_api_key
-```
+TAVILY_API_KEY=your_tavily_api_key
+# Add your configured LLM/API key variables here
 
----
+Use the exact variable names expected by the current project code.
 
-# ▶️ Run the Application
+### 5. Run the Streamlit app
 
-### Run the Research Pipeline
-
-```bash
-python pipeline.py
-```
-
-### Run the Streamlit UI
-
-```bash
 streamlit run app.py
-```
 
----
+The application will be available at the local Streamlit URL shown in the terminal.
 
-# 📖 Example Usage
+## 🔄 Deployment
 
-```
-Enter a research topic:
+The project is deployed on Streamlit Cloud:
 
-Artificial Intelligence in Healthcare
-```
+👉 https://researchflow-ai-akash.streamlit.app/
 
-The system will:
+When the Streamlit app is connected to the GitHub repository, updates to the deployed branch can trigger a new deployment.
 
-- 🔍 Search trusted sources
-- 📖 Read and summarize webpages
-- ✍️ Generate a research report
-- 🧠 Critically evaluate the report
-- 📄 Produce the final result
+## 🔐 Environment Variables
 
----
+API keys should never be committed to GitHub.
 
-# 📊 Example Output
+Use:
 
-```
-Research Topic:
-Artificial Intelligence in Healthcare
+- .env for local development
+- Streamlit Secrets for deployed applications
 
-✔ Search Completed
-✔ Sources Collected
-✔ Content Extracted
-✔ Report Generated
-✔ Report Reviewed
+Do not place real credentials directly inside Python source files.
 
-Overall Score:
-9/10
-```
+## 📊 Example Output
 
----
+For a topic such as:
 
-# 📈 Current Features
+Artificial Intelligence
 
-- ✅ Multi-Agent Architecture
-- ✅ Intelligent Web Search
-- ✅ Trusted Source Discovery
-- ✅ Web Content Extraction
-- ✅ AI-Powered Report Generation
-- ✅ Automated Report Evaluation
-- ✅ Modular Design
-- ✅ Environment Variable Support
-- ✅ Streamlit User Interface
+ResearchFlow AI can produce a workflow similar to:
 
----
+Research complete
 
-# 🚀 Future Roadmap
+🔍 Search Agent
+Completed
 
-- PDF Report Export
-- DOCX Report Export
-- FastAPI Backend
-- Citation Generator (APA, MLA, IEEE)
-- Google Scholar Integration
-- ArXiv Integration
-- Vector Database Support
-- Retrieval-Augmented Generation (RAG)
-- Research History
-- Multi-Language Research
-- Parallel Agent Execution
-- Source Reliability Scoring
-- Interactive Dashboard
-- Cloud Deployment
+📖 Reader Agent
+Completed
 
----
+✍ Writer Agent
+Completed
 
-# 👨‍💻 Developer
+🧠 Critic Agent
+Completed
 
-## Akash Goswami
+The generated report then contains the research content followed by a structured source list.
 
-**AI & Machine Learning Developer**
+## 🎯 Project Goal
 
-I am passionate about Artificial Intelligence, Machine Learning, Large Language Models (LLMs), and Multi-Agent Systems. I enjoy building intelligent applications that solve real-world problems using modern AI technologies.
+ResearchFlow AI is designed to reduce the repetitive work involved in web-based research by coordinating multiple specialized agents instead of relying on a single LLM call.
 
-### 🌐 Connect with Me
+The goal is to make research:
 
-- 🐙 GitHub: https://github.com/akashgoswami139
-- 💼 LinkedIn: https://www.linkedin.com/in/akashgoswami-/
-- 🐦 X (Twitter): https://x.com/akashgoswami
-- 📧 Email: akashhgoswami26@gmail.com
+- faster
+- more structured
+- source-aware
+- easier to review
+- easier to export and reuse
 
----
+## 👨‍💻 Developer
 
-# 🤝 Contributing
+Akash Goswami
 
-Contributions are welcome!
+AI & Machine Learning Developer
 
-1. Fork this repository.
-2. Create a new feature branch.
-3. Commit your changes.
-4. Push your branch.
-5. Open a Pull Request.
+- GitHub: https://github.com/akashgoswami139
+- LinkedIn: https://www.linkedin.com/in/akashgoswami-/
+- X: https://x.com/akashgoswami144
 
----
+## 📄 License
 
-# 📜 License
-
-This project is licensed under the **MIT License**.
-
----
-
-# ⭐ Support
-
-If you found this project helpful, please consider giving it a ⭐ on GitHub. Your support helps improve the project and motivates future development.
-
----
-
-<div align="center">
-
-### 🚀 ResearchFlow AI
-
-**Enterprise Multi-Agent AI Research Assistant**
-
-*Built with ❤️ by Akash Goswami*
+See the repository for the project's current license and usage terms.
