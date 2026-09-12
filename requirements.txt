@@ -2,7 +2,6 @@
 langchain>=0.2.0
 langchain-core>=0.2.0
 langchain-community>=0.2.0
-langchain-mistralai>=0.2.0
 
 # Google SDK
 langchain-google-genai==4.4.0
