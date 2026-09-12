@@ -502,8 +502,7 @@ def render_run_results(run: ResearchRun) -> None:
         unsafe_allow_html=True,
     )
     st.markdown("</div>", unsafe_allow_html=True)
-            for url in run.sources:
-                st.markdown(f"- [{url}]({url})")
+            
         
  
     with st.expander("📖 Reader Agent", expanded=False):
